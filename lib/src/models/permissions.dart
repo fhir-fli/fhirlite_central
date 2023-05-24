@@ -1,12 +1,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'permissions.freezed.dart';
+
 @freezed
 class Permissions with _$Permissions {
-  Permissions._();
+  const Permissions._();
 
   const factory Permissions({
-    PermissionGroup permissionGroup,
-    List<String> atSigns,
+    required PermissionGroup permissionGroup,
+    @Default(<String>[]) List<String> atSigns,
   }) = _Permissions;
 }
 

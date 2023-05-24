@@ -3,18 +3,16 @@ import 'dart:convert';
 import 'package:at_client/at_client.dart';
 import 'package:fhir/r4.dart';
 
-import 'success_or_error_message.dart';
+import '../src.dart';
 
 /// Provider writes to your atsign and returns a message of success or failure
-Future<SuccessOrErrorMessage> atSignUpdateFhirResource(
-    Resource resource) async {
-  final newResource = resource.newIdIfNoId();
+Future<SuccessOrErrorMessage> atSignUpdateFhirResource(AtFhirObject afo) async {
   AtClient atClient = AtClientManager.getInstance().atClient;
   AtKey atKey = AtKey();
   atKey
-    ..key = newResource.fhirId
+    ..key = afo.atKey
     ..namespace = 'fhir';
-  final result = await atClient.put(atKey, jsonEncode(newResource.toJson()));
+  final result = await atClient.put(atKey, afo.atFhirResource);
   if (result) {
     return const SuccessOrErrorMessage.success();
   } else {
@@ -24,10 +22,13 @@ Future<SuccessOrErrorMessage> atSignUpdateFhirResource(
 
 /// Provider requests a resource from your atsign
 Future<Resource> atSignGetFhirResource(
-    R4ResourceType resourceType, String id) async {
+  String resourceType,
+  String id, [
+  AtFhirVersion atFhirVersion = AtFhirVersion.r4,
+]) async {
   AtClient atClient = AtClientManager.getInstance().atClient;
-  AtKey atKey = AtKey();
-  atKey.key = '${Resource.resourceTypeToString(resourceType)}/$id';
+
+  AtKey atKey = AtKey()..key = 'fhir.$atFhirVersion.$resourceType.$id';
   final AtValue atValue = await atClient.get(atKey);
   if (atValue.value is! String) {
     return operationOutcome(atKey, atValue);

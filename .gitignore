@@ -25,3 +25,10 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# Don't check these in
+*.atKeys
+assets/.*
+hive/.*
+home/.*
+config.dart

@@ -1,14 +1,17 @@
 import 'dart:io';
 
+import 'package:fhirlite_central/src/services/at_onboarding.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 
-import '../server_files/listening_controller.dart';
+import '../lib/listening_controller.dart';
 
 /// spec: https://github.com/dart-lang/samples/blob/master/server/simple/bin/server.dart
 Future main() async {
   /// If the "PORT" environment variable is set, lisconfig['clientApis'][element]ten to it. Otherwise, 8080.
   /// https://cloud.google.com/run/docs/reference/container-contract#port
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
+
+  await onBoarding();
 
   /// Instantiate Controller to Listen
   final listeningController = ListeningController();
