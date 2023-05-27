@@ -136,13 +136,13 @@ class AtFhirObject with _$AtFhirObject {
     final params = atKey.split('.');
     switch (params[1]) {
       case 'r5':
-        return r5.Resource.fromJsonString(params[3]);
+        return r5.Resource.fromJsonString(atFhirResource);
       case 'r4':
-        return r4.Resource.fromJsonString(params[3]);
+        return r4.Resource.fromJsonString(atFhirResource);
       case 'stu3':
-        return stu3.Resource.fromJsonString(params[3]);
+        return stu3.Resource.fromJsonString(atFhirResource);
       case 'dstu2':
-        return dstu2.Resource.fromJsonString(params[3]);
+        return dstu2.Resource.fromJsonString(atFhirResource);
       default:
     }
   }
