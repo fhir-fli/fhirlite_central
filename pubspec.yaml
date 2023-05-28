@@ -10,6 +10,8 @@ dependencies:
   at_client: ^3.0.59
   at_onboarding_cli: ^1.3.0
   at_commons: ^3.0.47
+  at_fhir:
+    path: ../at_fhir
   # at_utils: ^3.0.13
   fhir: ^0.11.0
   freezed_annotation: ^2.2.0
