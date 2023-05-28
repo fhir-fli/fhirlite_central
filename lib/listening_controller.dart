@@ -11,9 +11,7 @@ class ListeningController {
   Handler get handler {
     final router = Router();
 
-    /// main post route (acts the same as put), first gets the resource info
-    /// for the new Resource. As long as that is valid, get the past from the
-    /// URL, and as long as that exists, pass it onto the post function
+    /// main post route, currently only checks if there's a resource
     router.post('/', (Request request) async {
       final requestString = await request.readAsString();
       final resource = Resource.fromJson(jsonDecode(requestString));

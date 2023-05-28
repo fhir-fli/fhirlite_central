@@ -5,6 +5,9 @@ import 'package:version/version.dart';
 
 import 'config.dart';
 
+/// Takes care of the onboarding for the server, accepts the arguments needed
+/// from a file called config.dart which contains a map of type <String, dynamic>
+/// with all of the arguments for the onboarding
 Future<void> onBoarding() async {
   AtServiceFactory? atServiceFactory;
   AtOnboardingPreference atOnboardingConfig = AtOnboardingPreference()
