@@ -22,7 +22,7 @@
 
 ## Formatting
 
-### Keys for FHIR resources stored on at atSign
+### Keys for FHIR resources stored on a person's atSign
 
     - fhir.version.resourceType.fhirId
     - fhir.stu3.patient.12345  
@@ -41,32 +41,35 @@
 
 ### Permission Groups
 
-    - [Create new permission group](lib/services/at_permissions.dart#L68)
-    - [Remove permission group](lib/services/at_permissions.dart#L96)
-    - [Rename permission group](lib/services/at_permissions.dart#L125)
-    - [Add atsign to permission group](lib/services/at_permissions.dart#L9)
-    - [Remove atsign from permission group](lib/services/at_permissions.dart#L38)
-    - decide what permission groups actually have access to
+- [Create new permission group](https://github.com/fhir-fli/fhirlite_central/blob/main/lib/services/at_permissions.dart#L74)
+- [Remove permission group](https://github.com/fhir-fli/fhirlite_central/blob/main/lib/services/at_permissions.dart#L101)
+- [Rename permission group](https://github.com/fhir-fli/fhirlite_central/blob/main/lib/services/at_permissions.dart#L129)
+- [Add atsign to permission group](https://github.com/fhir-fli/fhirlite_central/blob/main/lib/services/at_permissions.dart#L15)
+- [Remove atsign from permission group](https://github.com/fhir-fli/fhirlite_central/blob/main/lib/services/at_permissions.dart#L44)
+- decide what permission groups actually have access to
 
 ### Requests
 
-    - [Request listener](https://github.com/fhir-fli/fhirlite_central/blob/main/bin/server.dart#L11)
-    - Check permissions
-    - [Reform request](https://github.com/fhir-fli/fhirlite_central/blob/main/bin/server.dart#L15)
-    - [Log request](https://github.com/fhir-fli/fhirlite_central/blob/main/lib/src/services/log_request.dart)
-    - [Make request](https://github.com/fhir-fli/fhirlite_central/blob/main/lib/src/services/make_request.dart)
-    - Receive result
-    - Reform result
-    - Notify @sign of result
+- [Request listener](https://github.com/fhir-fli/fhirlite_central/blob/main/bin/server.dart#L11)
+- Check permissions
+- [Reform request](https://github.com/fhir-fli/fhirlite_central/blob/main/bin/server.dart#L19)
+- [Log request](https://github.com/fhir-fli/fhirlite_central/blob/main/lib/services/log_request.dart)
+- [Make request](https://github.com/fhir-fli/fhirlite_central/blob/main/lib/services/make_request.dart)
+- [Receive result](https://github.com/fhir-fli/fhirlite_central/blob/main/bin/server.dart#L29)
+- [Notify @sign](https://github.com/fhir-fli/fhirlite_central/blob/main/lib/services/at_notify.dart) of [result](https://github.com/fhir-fli/fhirlite_central/blob/main/bin/server.dart#L31)
+- Create/update appropriate listening groups
 
 ### Listening group
 
-    - a listening group is a list of atsigns that has currently downloaded/requested a particular resource
-    - on the server, the key is a typical FHIR resource key (fhir.version.resourceType.id), but the value is the list of atsigns that is listening to that resource
-    - Anytime a resource is requested, add the requester to the listening group
-    - Anytime a resource is created, add the requester to the listening group
-    - Anytime an update occurs for that particular resource, the server pushes the new resource as a notification to all of the listening atsigns
+- a listening group is a list of atsigns that should be notified about particular changes
+- need to define how these groups would work
+- probably should be defined by patient or by encounter
+- anytime a Resource associated with that patient or encounter is created/updated, the listening group should be notified
 
 ### Patient Workflow
 
-![Patient Workflow](./png/patient_workflow.png)
+![Patient Workflow](https://github.com/fhir-fli/at_fhir/blob/main/png/patient_workflow.png)
+
+### Server Workflow
+
+![Server Workflow](https://github.com/fhir-fli/at_fhir/blob/main/png/server_workflow.png)
