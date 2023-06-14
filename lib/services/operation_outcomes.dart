@@ -13,7 +13,7 @@ void notifyMalformedRequest(String requestString, String atSign) {
           display: 'Unable to parse feed',
         ),
       ]);
-  notify(operationOutcome.toJson(), atSign);
+  atNotify(operationOutcome.toJson(), atSign);
 }
 
 OperationOutcome _operationOutcome(
