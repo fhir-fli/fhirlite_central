@@ -1,8 +1,7 @@
 import 'package:at_fhir/at_fhir.dart';
-import 'package:fhir_at_rest/r4.dart';
 
-Future<SuccessOrError> logRequest(
-  FhirRequest request,
+Future<SuccessOrError> logNotification(
+  String? notification,
   String atSign, [
   String? nameSpace = 'fhir',
 ]) async {
@@ -16,7 +15,7 @@ Future<SuccessOrError> logRequest(
 
   return await atSignPut(
     atKey: 'fhir.request.$now',
-    value: request.toJsonString(),
+    value: notification ?? '',
     sharedWith: atSign,
     nameSpace: nameSpace,
   );
