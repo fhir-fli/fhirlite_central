@@ -5,7 +5,7 @@ import 'package:at_fhir/at_fhir.dart';
 
 // TODO(Dokotela): needs more work to decide how this works. Placeholder that
 // returns an appropriate value for now
-Future<SuccessOrError> checkPermission({
+Future<SuccessOrError> checkRoleAccess({
   required String atSign,
 }) async {
   return SuccessOrError.successBool(true);

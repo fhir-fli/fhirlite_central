@@ -1,3 +1,3 @@
-import 'package:fhirlite_central/at_fhirlite_central.dart';
+import '../lib/src.dart';
 
 Future main() async => atFhirliteCentral();
