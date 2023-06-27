@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:at_client/at_client.dart';
 import 'package:at_fhir/at_fhir.dart';
 
 // TODO(Dokotela): needs more work to decide how this works. Placeholder that
@@ -13,6 +14,7 @@ Future<SuccessOrError> checkPermission({
 /// Requests all of the atSigns associated with that PermissionGroup, adds the
 /// new atSign to that list, and updates the list
 Future<SuccessOrError> addAtSignToPermissionGroup({
+  required AtClient atClient,
   required String atSign,
   required String permissionGroup,
   String? nameSpace,
@@ -26,6 +28,7 @@ Future<SuccessOrError> addAtSignToPermissionGroup({
     if (atSigns is List<String>) {
       atSigns.add(atSign);
       return await atSignPut(
+        atClient: atClient,
         atKey: 'fhir.permission.$permissionGroup',
         value: jsonEncode(atSigns),
         nameSpace: nameSpace,
@@ -42,6 +45,7 @@ Future<SuccessOrError> addAtSignToPermissionGroup({
 /// Requests all of the atSigns associated with that PermissionGroup, adds the
 /// new atSign to that list, and updates the list
 Future<SuccessOrError> removeAtSignFromPermissionGroup({
+  required AtClient atClient,
   required String atSign,
   required String permissionGroup,
   String? nameSpace,
@@ -55,6 +59,7 @@ Future<SuccessOrError> removeAtSignFromPermissionGroup({
     if (atSigns is List<String>) {
       atSigns.remove(atSign);
       return await atSignPut(
+        atClient: atClient,
         atKey: 'fhir.permission.$permissionGroup',
         value: jsonEncode(atSigns),
         nameSpace: nameSpace,
@@ -72,6 +77,7 @@ Future<SuccessOrError> removeAtSignFromPermissionGroup({
 /// groups that is already stored. It decodes this list, adds the new value
 /// to the list, encodes it, and stores it back at the same atKey
 Future<SuccessOrError> createPermissionGroup({
+  required AtClient atClient,
   required String permissionGroup,
   String? nameSpace,
 }) async {
@@ -82,6 +88,7 @@ Future<SuccessOrError> createPermissionGroup({
     if (permissionGroups is List<String>) {
       permissionGroups.add(permissionGroup);
       return await atSignPut(
+        atClient: atClient,
         atKey: 'fhir.permissiongroups',
         value: jsonEncode(permissionGroups),
         nameSpace: nameSpace,
@@ -99,6 +106,7 @@ Future<SuccessOrError> createPermissionGroup({
 /// groups that is already stored. It decodes this list, removes the new value
 /// from the list, encodes it, and stores it back at the same atKey
 Future<SuccessOrError> removePermissionGroup({
+  required AtClient atClient,
   required String permissionGroup,
   String? nameSpace,
 }) async {
@@ -110,6 +118,7 @@ Future<SuccessOrError> removePermissionGroup({
     final dynamic permissionGroups = jsonDecode(stringOfPermissionGroups.value);
     if (permissionGroups is List<String>) {
       return await atSignPut(
+        atClient: atClient,
         atKey: 'fhir.permissiongroups',
         value: jsonEncode(permissionGroups),
         nameSpace: nameSpace,
@@ -127,6 +136,7 @@ Future<SuccessOrError> removePermissionGroup({
 /// are included in that permissionGroup, it then copies them over to the new
 /// permissionGroupName, and finally updates the fhir.permissiongroups value
 Future<SuccessOrError> renamePermissionGroup({
+  required AtClient atClient,
   required String oldPermissionGroupName,
   required String newPermissionGroupName,
   String? nameSpace,
@@ -138,6 +148,7 @@ Future<SuccessOrError> renamePermissionGroup({
 
   if (permissionGroupString is SuccessString) {
     final copied = await atSignPut(
+      atClient: atClient,
       atKey: 'fhir.permission.$newPermissionGroupName',
       value: permissionGroupString.value,
       nameSpace: nameSpace,
@@ -157,6 +168,7 @@ Future<SuccessOrError> renamePermissionGroup({
             permissionGroups.remove(oldPermissionGroupName);
             permissionGroups.add(newPermissionGroupName);
             return atSignPut(
+              atClient: atClient,
               atKey: 'fhir.permissiongroups',
               value: jsonEncode(permissionGroups),
               nameSpace: nameSpace,
